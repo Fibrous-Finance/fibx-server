@@ -38,11 +38,19 @@ describe("signTransactionSchema", () => {
 	});
 
 	it("accepts every supported chain by default", () => {
-		// Base 8453, Citrea 4114, HyperEVM 999, Monad 143
-		for (const chainId of ["0x2105", "0x1012", "0x3e7", "0x8f"]) {
+		// Base 8453, HyperEVM 999, Monad 143
+		for (const chainId of ["0x2105", "0x3e7", "0x8f"]) {
 			const result = signTransactionSchema.safeParse(cliTransaction({ chain_id: chainId }));
 			expect(result.success, `chain ${chainId} should be allowed`).toBe(true);
 		}
+	});
+
+	// Citrea (4114) was withdrawn on 2026-08-29 after Fibrous delisted it
+	// upstream. Putting 4114 back in the ALLOWED_CHAIN_IDS default is what
+	// makes this fail.
+	it("refuses to sign for citrea by default", () => {
+		const result = signTransactionSchema.safeParse(cliTransaction({ chain_id: "0x1012" }));
+		expect(result.success).toBe(false);
 	});
 
 	// The core hardening: this used to be z.record, so anything was signed.

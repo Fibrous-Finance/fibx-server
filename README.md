@@ -62,9 +62,9 @@ pnpm dev
 | `PUBLIC_URL`                  | No       | —                                    | Public URL for Origin header in production     |
 | `ALLOWED_ORIGINS`             | No       | —                                    | Comma-separated allowed CORS origins           |
 | `TRUST_PROXY_HOPS`            | No       | `1`                                  | Reverse proxies in front (see below)           |
-| `ALLOWED_CHAIN_IDS`           | No       | `8453,4114,999,143`                  | Chain IDs this deployment will sign for        |
+| `ALLOWED_CHAIN_IDS`           | No       | `8453,999,143`                  | Chain IDs this deployment will sign for        |
 | `WALLET_POLICY_ID`            | No       | —                                    | Existing Privy policy ID (existence checked)   |
-| `WALLET_POLICY_MAX_TX_NATIVE` | No       | `8453:0.5,4114:0.005,999:25,143:500` | Native caps for server-generated policy rules  |
+| `WALLET_POLICY_MAX_TX_NATIVE` | No       | `8453:0.5,999:25,143:500` | Native caps for server-generated policy rules  |
 
 **`TRUST_PROXY_HOPS`** controls how the rate limiter identifies a client.
 Forwarding headers are client-writable, and each proxy _appends_ the address it

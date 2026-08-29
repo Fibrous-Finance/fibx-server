@@ -18,10 +18,14 @@ const envSchema = z.object({
 
 	/**
 	 * Chain IDs this deployment will sign for, comma separated. Defaults to the
-	 * four chains the fibx CLI supports (Base, Citrea, HyperEVM, Monad) so a
-	 * stolen token cannot be used to sign on an unrelated chain.
+	 * three chains the fibx CLI supports (Base, HyperEVM, Monad) so a stolen
+	 * token cannot be used to sign on an unrelated chain.
+	 *
+	 * Citrea (4114) was dropped on 2026-08-29 after Fibrous delisted it. This
+	 * gate is read per request, so removing it here takes effect on deploy —
+	 * unlike the Privy policy below, which is written once.
 	 */
-	ALLOWED_CHAIN_IDS: z.string().default("8453,4114,999,143"),
+	ALLOWED_CHAIN_IDS: z.string().default("8453,999,143"),
 
 	/**
 	 * Privy policy attached to newly created agent wallets. Leave unset to have
@@ -37,8 +41,13 @@ const envSchema = z.object({
 	 * "chainId:amountInNativeUnits" pairs. Defaults are deliberately
 	 * conservative; adjust to your risk appetite. Applies only to wallets
 	 * created after the policy exists.
+	 *
+	 * Editing this does not rewrite a policy Privy already holds: an existing
+	 * WALLET_POLICY_ID keeps the rules it was created with, so a deployment
+	 * that provisioned before 2026-08-29 still carries an allow rule for
+	 * Citrea (4114). ALLOWED_CHAIN_IDS above rejects those requests first.
 	 */
-	WALLET_POLICY_MAX_TX_NATIVE: z.string().default("8453:0.5,4114:0.005,999:25,143:500"),
+	WALLET_POLICY_MAX_TX_NATIVE: z.string().default("8453:0.5,999:25,143:500"),
 
 	// Authentication (Privy)
 	PRIVY_APP_ID: z.string().min(1, "PRIVY_APP_ID is required"),

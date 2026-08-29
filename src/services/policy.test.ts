@@ -18,8 +18,8 @@ describe("decimalToWeiHex", () => {
 
 describe("parseChainCaps", () => {
 	it("parses the default config format", () => {
-		const caps = parseChainCaps("8453:0.5,4114:0.005,999:25,143:500");
-		expect(caps.map((c) => c.chainId)).toEqual([8453, 4114, 999, 143]);
+		const caps = parseChainCaps("8453:0.5,999:25,143:500");
+		expect(caps.map((c) => c.chainId)).toEqual([8453, 999, 143]);
 		expect(caps[0].maxValueWeiHex).toBe(decimalToWeiHex("0.5"));
 	});
 
