@@ -21,8 +21,7 @@ const envSchema = z.object({
 	 * three chains the fibx CLI supports (Base, HyperEVM, Monad) so a stolen
 	 * token cannot be used to sign on an unrelated chain.
 	 *
-	 * Citrea (4114) was dropped on 2026-08-29 after Fibrous delisted it. This
-	 * gate is read per request, so removing it here takes effect on deploy —
+	 * This gate is read per request, so a change here takes effect on deploy —
 	 * unlike the Privy policy below, which is written once.
 	 */
 	ALLOWED_CHAIN_IDS: z.string().default("8453,999,143"),
@@ -43,9 +42,9 @@ const envSchema = z.object({
 	 * created after the policy exists.
 	 *
 	 * Editing this does not rewrite a policy Privy already holds: an existing
-	 * WALLET_POLICY_ID keeps the rules it was created with, so a deployment
-	 * that provisioned before 2026-08-29 still carries an allow rule for
-	 * Citrea (4114). ALLOWED_CHAIN_IDS above rejects those requests first.
+	 * WALLET_POLICY_ID keeps the rules it was created with, which may allow
+	 * chains no longer listed here. ALLOWED_CHAIN_IDS above rejects those
+	 * requests first.
 	 */
 	WALLET_POLICY_MAX_TX_NATIVE: z.string().default("8453:0.5,999:25,143:500"),
 
