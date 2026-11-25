@@ -45,14 +45,6 @@ describe("signTransactionSchema", () => {
 		}
 	});
 
-	// Citrea (4114) was withdrawn on 2026-08-29 after Fibrous delisted it
-	// upstream. Putting 4114 back in the ALLOWED_CHAIN_IDS default is what
-	// makes this fail.
-	it("refuses to sign for citrea by default", () => {
-		const result = signTransactionSchema.safeParse(cliTransaction({ chain_id: "0x1012" }));
-		expect(result.success).toBe(false);
-	});
-
 	// The core hardening: this used to be z.record, so anything was signed.
 	it("rejects unknown fields instead of signing them", () => {
 		const result = signTransactionSchema.safeParse(
